@@ -1,7 +1,7 @@
 import { searchMovieByCast } from '../../api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import image from 'images/notFound.jpeg';
+import image from 'images/notFound.jpg';
 
 const Cast = () => {
   const { moviesId } = useParams();

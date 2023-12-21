@@ -1,6 +1,6 @@
 import { searchMovieById } from '../../api';
 import { useEffect, useState, useRef } from 'react';
-import image from 'images/notFound.jpeg';
+import image from 'images/notFound.jpg';
 import {  Link,  NavLink,  Outlet,  useLocation,  useParams,} from 'react-router-dom';
 
 

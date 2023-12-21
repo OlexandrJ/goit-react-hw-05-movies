@@ -2,7 +2,8 @@ import { MoviesList } from '../../components/MoviesList/MoviesList';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { searchMoviesByName } from '../../api';
-import Form from '../../components/SearchForm';
+import FormSearch from '../../components/SearchForm';
+import css from './movies.css';
 
 const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,8 +34,8 @@ const Movies = () => {
   };
 
   return (
-    <div>
-      <Form
+    <div className={css.moviesTitle}>
+      <FormSearch
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleSubmit={handleSubmit}

@@ -1,16 +1,19 @@
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import image from 'images/notFound.jpeg';
+import css from './movielist.css';
+import image from 'images/notFound.jpg';
+
 export const MoviesList = ({ movies }) => {
   const location = useLocation();
   return (
-    <ul>
+    <ul className={css.list}>
       {movies &&
         movies.map(({ id, name, title, poster_path }) => (
-          <li key={id}>
+          <li key={id} className={css.item}>
             <Link
               to={`/movies/${id}`}
               state={{ location }}
+              className={css.link_movies}
             >
               <img
                 src={
@@ -22,7 +25,7 @@ export const MoviesList = ({ movies }) => {
                 width="300"
                 height="400"
               />
-              <span>{name || title}</span>
+              <span className={css.description}>{name || title}</span>
             </Link>
           </li>
         ))}
