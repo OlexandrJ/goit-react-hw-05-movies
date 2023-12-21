@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMovieCredits } from '../api';
+import { getMovieCredits } from '../../api';
 
 const Cast = ({ match }) => {
   const [cast, setCast] = useState([]);

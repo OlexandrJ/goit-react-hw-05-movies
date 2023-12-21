@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMovieReviews } from '../api';
+import { getMovieReviews } from '../../api';
 
 const Reviews = ({ match }) => {
   const [reviews, setReviews] = useState([]);

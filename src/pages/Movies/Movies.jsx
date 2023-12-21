@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { searchMovies } from '../api';
-import MoviesList from './MoviesList';
-import SearchForm from './SearchForm';
+import { searchMovies } from '../../api';
+import MoviesList from '../../components/MoviesList/MoviesList';
+import SearchForm from '../../components/SearchForm';
 
 const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
