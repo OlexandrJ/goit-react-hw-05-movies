@@ -1,38 +1,45 @@
-import React, { useState } from 'react';
-import { searchMovies } from '../../api';
-import MoviesList from '../../components/MoviesList/MoviesList';
-import SearchForm from '../../components/SearchForm';
+import { MoviesList } from '../../components/MoviesList/MoviesList';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { searchMoviesByName } from '../../api';
+import Form from '../../components/SearchForm';
 
 const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query');
 
-  const handleSearch = async () => {
-    try {
-      const response = await searchMovies(searchQuery);
-      setSearchResults(response.results);
-    } catch (error) {
-      console.error('Error searching movies:', error);
-    }
-  };
+  useEffect(() => {
+    const fetchMovie = async () => {
+      if (!query) {
+        return;
+      }
+      try {
+        const response = await searchMoviesByName(query);
+        setMovies(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const handleSubmit = (value) => {
-    setSearchQuery(value);
-    handleSearch();
+    fetchMovie();
+  }, [query]);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    setSearchParams({ query: searchQuery });
+    setSearchQuery('');
   };
 
   return (
     <div>
-      <h2>Пошук фільмів</h2>
-      <SearchForm handleSubmit={handleSubmit} />
-      <MoviesList movies={searchResults} />
-      <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-      <button onClick={handleSearch}>Пошук</button>
-      <ul>
-        {searchResults.map(movie => (
-          <li key={movie.id}>{movie.title}</li>
-        ))}
-      </ul>
+      <Form
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        handleSubmit={handleSubmit}
+      />
+      <MoviesList movies={movies} />
     </div>
   );
 };

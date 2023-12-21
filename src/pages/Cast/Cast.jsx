@@ -1,31 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { getMovieCredits } from '../../api';
+import { searchMovieByCast } from '../../api';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import image from 'images/notFound.jpeg';
 
-const Cast = ({ match }) => {
+const Cast = () => {
+  const { moviesId } = useParams();
   const [cast, setCast] = useState([]);
 
   useEffect(() => {
-    const fetchMovieCredits = async () => {
-      try {
-        const response = await getMovieCredits(match.params.movieId);
-        setCast(response.cast);
-      } catch (error) {
-        console.error('Error fetching movie credits:', error);
-      }
-    };
-
-    fetchMovieCredits();
-  }, [match.params.movieId]);
+    searchMovieByCast(moviesId)
+      .then(({ cast }) => {
+        setCast(cast);
+      })
+      .catch(({ message }) => {
+        console.log(message);
+      });
+  }, [moviesId]);
 
   return (
-    <div>
-      <h2>Акторський склад</h2>
-      <ul>
-        {cast.map(actor => (
-          <li key={actor.id}>{actor.name}</li>
+    <ul>
+      {cast &&
+        cast.map(({ character, profile_path, name, id }) => (
+          <li key={id}>
+            <img
+              src={
+                profile_path
+                  ? `https://image.tmdb.org/t/p/w500${profile_path}`
+                  : image
+              }
+              alt={name}
+              width="140"
+              height="175"
+            />
+            <div>
+              <h3>{name}</h3>
+              <h4>Character: </h4>
+              <p>{character}</p>
+            </div>
+          </li>
         ))}
-      </ul>
-    </div>
+    </ul>
   );
 };
 

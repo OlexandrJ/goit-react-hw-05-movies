@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const SearchForm = ({ handleSubmit }) => {
-  const [query, setQuery] = useState('');
-
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    handleSubmit(query);
-  };
-
+const SearchForm = ({ handleSubmit, searchQuery, setSearchQuery }) => {
   return (
-    <form onSubmit={handleFormSubmit}>
-      <input type="text" value={query} onChange={handleInputChange} />
-      <button type="submit">Пошук</button>
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Enter your query here, please"
+        value={searchQuery}
+        onChange={event => setSearchQuery(event.target.value)}
+      />
+      <button type="submit">
+        Search
+      </button>
     </form>
   );
 };

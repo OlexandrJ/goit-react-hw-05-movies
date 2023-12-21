@@ -1,34 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { getMovieReviews } from '../../api';
+import { searchMovieByReviews } from '../../api';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-const Reviews = ({ match }) => {
+const Reviews = () => {
+  const { moviesId } = useParams();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    const fetchMovieReviews = async () => {
-      try {
-        const response = await getMovieReviews(match.params.movieId);
-        setReviews(response.results);
-      } catch (error) {
-        console.error('Error fetching movie reviews:', error);
-      }
-    };
-
-    fetchMovieReviews();
-  }, [match.params.movieId]);
+    searchMovieByReviews(moviesId)
+      .then(({ results }) => {
+        setReviews(results);
+      })
+      .catch(({ message }) => {
+        console.log(message);
+      });
+  }, [moviesId]);
 
   return (
-    <div>
-      <h2>Огляди</h2>
-      <ul>
-        {reviews.map(review => (
-          <li key={review.id}>
-            <p>{review.author}</p>
-            <p>{review.content}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {!!reviews.length ? (
+        <ul>
+          {reviews.map(({ content, author, id }) => (
+            <li key={id}>
+              <h3>Author: {author}</h3>
+              <p>{content}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>We don't have any reviews for this movie</p>
+      )}
+    </>
   );
 };
 

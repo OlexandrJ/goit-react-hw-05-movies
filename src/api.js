@@ -1,40 +1,37 @@
-const apiKey = '82e54d6346add158b3ca2c4553f01f90';
-const apiUrl = 'https://api.themoviedb.org/3';
+import axios from 'axios';
 
-export const getTrendingMovies = async () => {
-  const response = await fetch(`${apiUrl}/trending/all/day?api_key=${apiKey}`);
-  const data = await response.json();
-  return data;
+const api_key = '82e54d6346add158b3ca2c4553f01f90';
+
+const movieApi = axios.create({
+  baseURL: 'https://api.themoviedb.org/3/',
+  params: {
+    api_key: api_key,
+  },
+});
+
+export const moviesFetch = async () => {
+  const response = await movieApi.get('trending/movie/day');
+  return response.data.results;
 };
 
-export const searchMovies = async (query) => {
-  const response = await fetch(
-    `${apiUrl}/search/movie?api_key=${apiKey}&query=${query}`
-  );
-  const data = await response.json();
-  return data;
+export const searchMoviesByName = async searchQuery => {
+  const response = await movieApi.get('/search/movie', {
+    params: { query: searchQuery },
+  });
+  return response.data.results;
 };
 
-export const getMovieDetails = async (movieId) => {
-  const response = await fetch(
-    `${apiUrl}/movie/${movieId}?api_key=${apiKey}`
-  );
-  const data = await response.json();
-  return data;
+export const searchMovieById = async id => {
+  const response = await movieApi.get(`/movie/${id}`);
+  return response.data;
 };
 
-export const getMovieCredits = async (movieId) => {
-  const response = await fetch(
-    `${apiUrl}/movie/${movieId}/credits?api_key=${apiKey}`
-  );
-  const data = await response.json();
-  return data;
+export const searchMovieByCast = async id => {
+  const response = await movieApi.get(`/movie/${id}/credits`);
+  return response.data;
 };
 
-export const getMovieReviews = async (movieId) => {
-  const response = await fetch(
-    `${apiUrl}/movie/${movieId}/reviews?api_key=${apiKey}`
-  );
-  const data = await response.json();
-  return data;
+export const searchMovieByReviews = async id => {
+  const response = await movieApi.get(`/movie/${id}/reviews`);
+  return response.data;
 };

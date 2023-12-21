@@ -1,37 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { getTrendingMovies } from '../../api';
-import MoviesList from '../../components/MoviesList/MoviesList';
-import SearchForm from '../../components/SearchForm';
+import { useState, useEffect } from 'react';
+import { moviesFetch } from '../../api';
+import { MoviesList } from '../../components/MoviesList/MoviesList';
 
 const Home = () => {
-  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [trendingFilms, setTrendingFilms] = useState([]);
 
   useEffect(() => {
-    const fetchTrendingMovies = async () => {
-      try {
-        const response = await getTrendingMovies();
-        setTrendingMovies(response.results);
-      } catch (error) {
-        console.error('Error fetching trending movies:', error);
-      }
-    };
-
-    fetchTrendingMovies();
+    moviesFetch()
+      .then(response => {
+        setTrendingFilms(response);
+      })
+      .catch(({ message }) => {
+        console.log(message);
+      });
   }, []);
 
-  const handleSubmit = (value) => {
-  };
+  if (!trendingFilms.length) {
+    return <p>404 Not Found</p>;
+  }
 
   return (
     <div>
-      <h2>Найпопулярніші фільми</h2>
-      <ul>
-        {trendingMovies.map(movie => (
-          <li key={movie.id}>{movie.title}</li>
-        ))}
-      </ul>
-      <SearchForm handleSubmit={handleSubmit} />
-      <MoviesList movies={trendingMovies} />
+      <MoviesList movies={trendingFilms} />
     </div>
   );
 };
