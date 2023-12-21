@@ -25,6 +25,11 @@ const Home = () => {
   return (
     <div>
       <h2>Найпопулярніші фільми</h2>
+      <ul>
+        {trendingMovies.map(movie => (
+          <li key={movie.id}>{movie.title}</li>
+        ))}
+      </ul>
       <SearchForm handleSubmit={handleSubmit} />
       <MoviesList movies={trendingMovies} />
     </div>

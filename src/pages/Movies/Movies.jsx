@@ -26,6 +26,13 @@ const Movies = () => {
       <h2>Пошук фільмів</h2>
       <SearchForm handleSubmit={handleSubmit} />
       <MoviesList movies={searchResults} />
+      <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+      <button onClick={handleSearch}>Пошук</button>
+      <ul>
+        {searchResults.map(movie => (
+          <li key={movie.id}>{movie.title}</li>
+        ))}
+      </ul>
     </div>
   );
 };

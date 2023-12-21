@@ -17,8 +17,8 @@ const App = () => {
           <Route path="/movies/:movieId" exact component={MovieDetails} />
           <Route path="/movies/:movieId/cast" exact component={Cast} />
           <Route path="/movies/:movieId/reviews" exact component={Reviews} />
-          <Redirect to="/" />
           <Route path="*" component={Home} />
+          <Redirect to="/" />
         </Switch>
       </Suspense>
     </Router>
