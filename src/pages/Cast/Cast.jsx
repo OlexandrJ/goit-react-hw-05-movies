@@ -2,6 +2,7 @@ import { searchMovieByCast } from '../../api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import image from 'images/notFound.jpg';
+import css from './cast.css';
 
 const Cast = () => {
   const { moviesId } = useParams();
@@ -18,10 +19,10 @@ const Cast = () => {
   }, [moviesId]);
 
   return (
-    <ul>
+    <ul className={css.list}>
       {cast &&
         cast.map(({ character, profile_path, name, id }) => (
-          <li key={id}>
+          <li key={id} className={css.item}>
             <img
               src={
                 profile_path
@@ -32,7 +33,7 @@ const Cast = () => {
               width="140"
               height="175"
             />
-            <div>
+            <div className={css.description}>
               <h3>{name}</h3>
               <h4>Character: </h4>
               <p>{character}</p>
